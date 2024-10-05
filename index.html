@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>latebitflip.io</title>
+        <title>Retro Green Grid Background</title>
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
@@ -14,34 +14,78 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                background-color: #000000;
-                color: #ffffff;
+                background-color: black;
                 font-family: "Press Start 2P", cursive;
+                overflow: hidden;
+            }
+
+            .grid-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                background-color: black;
+                background-image: repeating-linear-gradient(
+                        90deg,
+                        transparent,
+                        transparent 49px,
+                        #00ff00 50px
+                    ),
+                    repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 49px,
+                        #00ff00 50px
+                    );
+                background-size: 100px 100px;
+                opacity: 0.7;
+                animation: moveGrid 300s linear infinite;
             }
 
             .container {
+                position: relative;
                 text-align: center;
+                z-index: 1; /* Content will stay on top of the grid */
             }
 
             h1 {
-                color: #00ffcc;
+                color: #00ff00;
                 font-size: 2.5em;
+                margin-bottom: 20px;
+            }
+            h3 {
+                color: #ffffff;
+                font-size: 1.5em;
                 margin-bottom: 20px;
             }
 
             img {
                 width: 100px;
                 height: auto;
-                border: 3px solid #00ffcc;
+                border: 3px solid #00ff00;
+                background: #000000;
                 border-radius: 10px;
+            }
+
+            @keyframes moveGrid {
+                from {
+                    background-position: 0 0;
+                }
+                to {
+                    background-position: 100px 100px;
+                }
             }
         </style>
     </head>
     <body>
+        <div class="grid-background"></div>
         <div class="container">
             <h1>LATEBITFLIP.IO</h1>
-            <img src="latebitflip.png" alt="Centered Image" />
+            <img src="latebitflip.png" alt="latebitflip" />
             <h3>@ontehfritz</h3>
+            <img src="fritz-pixel.png" alt="ontehfritz" />
         </div>
     </body>
 </html>
