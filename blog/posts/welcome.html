@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Welcome - latebit.io/blog</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #000000;
+                color: #00ff00;
+                font-family: "Press Start 2P", monospace;
+                font-size: 12px;
+                padding: 20px;
+                line-height: 1.8;
+            }
+
+            .terminal {
+                max-width: 900px;
+                margin: 0 auto;
+                border: 2px solid #00ff00;
+                padding: 20px;
+                background-color: #000000;
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+
+            .terminal-header {
+                border-bottom: 2px solid #00ff00;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            .prompt {
+                color: #00ff00;
+                margin-bottom: 10px;
+            }
+
+            .post-meta {
+                opacity: 0.7;
+                margin-bottom: 20px;
+                font-size: 10px;
+            }
+
+            .post-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+                color: #00ff00;
+                text-shadow: 0 0 5px #00ff00;
+            }
+
+            .post-content {
+                margin: 30px 0;
+                line-height: 2;
+            }
+
+            .post-content p {
+                margin-bottom: 20px;
+            }
+
+            .post-content h2 {
+                font-size: 14px;
+                margin: 30px 0 15px 0;
+                color: #00ff00;
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 10px;
+            }
+
+            .post-content code {
+                background-color: #003300;
+                padding: 2px 5px;
+                border: 1px solid #00ff00;
+                font-family: "Press Start 2P", monospace;
+                font-size: 10px;
+            }
+
+            .post-content pre {
+                background-color: #003300;
+                border: 1px solid #00ff00;
+                padding: 15px;
+                overflow-x: auto;
+                margin: 15px 0;
+            }
+
+            .post-content pre code {
+                background: none;
+                border: none;
+                padding: 0;
+            }
+
+            .post-content a {
+                color: #00ff00;
+                text-decoration: none;
+                border-bottom: 1px dotted #00ff00;
+            }
+
+            .post-content a:hover {
+                text-shadow: 0 0 5px #00ff00;
+            }
+
+            .back-link {
+                margin-top: 30px;
+                padding-top: 15px;
+                border-top: 2px solid #00ff00;
+            }
+
+            .back-link a {
+                color: #00ff00;
+                text-decoration: none;
+            }
+
+            .back-link a:hover {
+                text-shadow: 0 0 5px #00ff00;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="prompt">latebit@terminal:~/blog/posts$</div>
+                <div class="prompt">$ cat welcome.html</div>
+            </div>
+
+            <article>
+                <div class="post-meta">
+                    <div class="prompt">Date: 2025-10-24</div>
+                    <div class="prompt">Author: ontehfritz</div>
+                </div>
+
+                <h1 class="post-title">Welcome to the Terminal</h1>
+
+                <div class="post-content">
+                    <p>
+                        Hello World! Welcome to my retro terminal-style blog.
+                        This is where I'll be sharing thoughts, code snippets,
+                        and various musings from the digital frontier.
+                    </p>
+
+                    <h2>Why Terminal Style?</h2>
+
+                    <p>
+                        There's something timeless about the green-on-black
+                        aesthetic of classic computer terminals. It's a tribute
+                        to the pioneers who built the foundations of modern
+                        computing.
+                    </p>
+
+                    <h2>How to Write Posts</h2>
+
+                    <p>
+                        Creating a new blog post is simple:
+                    </p>
+
+                    <pre><code>1. Create a new .html file in blog/posts/
+2. Copy this template
+3. Update the content
+4. Add link to blog/index.html</code></pre>
+
+                    <p>
+                        That's it! No build process, no dependencies,
+                        just pure HTML and CSS.
+                    </p>
+
+                    <h2>Stay Tuned</h2>
+
+                    <p>
+                        More posts coming soon. Until then, keep hacking!
+                    </p>
+                </div>
+            </article>
+
+            <div class="back-link">
+                <div class="prompt">$ cd ..</div>
+                <div class="prompt">
+                    <a href="../index.html">← back to blog index</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -3,31 +3,39 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Retro Green Grid Background</title>
+        <title>LATEBIT.IO - System Terminal</title>
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
-            body {
+            * {
                 margin: 0;
                 padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #000000;
+                color: #00ff00;
+                font-family: "Press Start 2P", monospace;
+                font-size: 12px;
+                padding: 20px;
+                line-height: 1.6;
+                min-height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
-                background-color: black;
-                font-family: "Press Start 2P", cursive;
-                overflow: hidden;
             }
 
             .grid-background {
-                position: absolute;
+                position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
                 z-index: 0;
                 background-color: black;
-                background-image: repeating-linear-gradient(
+                background-image:
+                    repeating-linear-gradient(
                         90deg,
                         transparent,
                         transparent 49px,
@@ -40,33 +48,8 @@
                         #00ff00 50px
                     );
                 background-size: 100px 100px;
-                opacity: 0.7;
+                opacity: 0.2;
                 animation: moveGrid 300s linear infinite;
-            }
-
-            .container {
-                position: relative;
-                text-align: center;
-                z-index: 1; /* Content will stay on top of the grid */
-            }
-
-            h1 {
-                color: #ffffff;
-                font-size: 2.5em;
-                margin-bottom: 20px;
-            }
-            h3 {
-                color: #ffffff;
-                font-size: 1.5em;
-                margin-bottom: 20px;
-            }
-
-            img {
-                width: 100px;
-                height: auto;
-                border: 3px solid #00ff00;
-                background: #000000;
-                border-radius: 10px;
             }
 
             @keyframes moveGrid {
@@ -77,17 +60,262 @@
                     background-position: 100px 100px;
                 }
             }
+
+            .tui-container {
+                position: relative;
+                z-index: 1;
+                max-width: 1000px;
+                width: 100%;
+                border: 2px solid #00ff00;
+                background-color: #000000;
+                box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+            }
+
+            .tui-header {
+                border-bottom: 2px solid #00ff00;
+                padding: 15px 20px;
+                background-color: #003300;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .tui-title {
+                font-size: 14px;
+                text-shadow: 0 0 10px #00ff00;
+            }
+
+            .tui-status {
+                font-size: 8px;
+                opacity: 0.8;
+            }
+
+            .tui-main {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2px;
+                background-color: #00ff00;
+            }
+
+            .tui-panel {
+                background-color: #000000;
+                padding: 20px;
+                min-height: 300px;
+            }
+
+            .panel-header {
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+                font-size: 10px;
+                opacity: 0.8;
+            }
+
+            .profile-section {
+                text-align: center;
+            }
+
+            .logo-container {
+                margin: 20px 0;
+            }
+
+            .logo-img {
+                width: 120px;
+                height: auto;
+                border: 2px solid #00ff00;
+                background: #000000;
+                padding: 10px;
+            }
+
+            .profile-img {
+                width: 80px;
+                height: auto;
+                border: 2px solid #00ff00;
+                background: #000000;
+                margin: 15px 0;
+            }
+
+            .username {
+                font-size: 14px;
+                margin: 10px 0;
+                text-shadow: 0 0 5px #00ff00;
+            }
+
+            .menu-section {
+                padding-top: 10px;
+            }
+
+            .menu-item {
+                padding: 12px 15px;
+                margin: 8px 0;
+                border: 1px solid #00ff00;
+                background-color: #000000;
+                cursor: pointer;
+                transition: all 0.2s;
+                display: block;
+                text-decoration: none;
+                color: #00ff00;
+                font-size: 10px;
+            }
+
+            .menu-item:hover {
+                background-color: #00ff00;
+                color: #000000;
+                box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+                transform: translateX(5px);
+            }
+
+            .menu-item::before {
+                content: "> ";
+            }
+
+            .menu-item:hover::before {
+                content: ">> ";
+            }
+
+            .info-line {
+                margin: 8px 0;
+                font-size: 10px;
+                line-height: 1.8;
+            }
+
+            .info-label {
+                opacity: 0.7;
+            }
+
+            .tui-footer {
+                border-top: 2px solid #00ff00;
+                padding: 15px 20px;
+                background-color: #003300;
+                font-size: 8px;
+                text-align: center;
+                opacity: 0.8;
+            }
+
+            .cursor {
+                animation: blink 1s infinite;
+            }
+
+            @keyframes blink {
+                0%,
+                49% {
+                    opacity: 1;
+                }
+                50%,
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            .ascii-art {
+                font-size: 6px;
+                line-height: 1.2;
+                margin: 15px 0;
+                opacity: 0.6;
+                white-space: pre;
+            }
+
+            @media (max-width: 768px) {
+                .tui-main {
+                    grid-template-columns: 1fr;
+                }
+
+                body {
+                    padding: 10px;
+                    font-size: 10px;
+                }
+
+                .tui-title {
+                    font-size: 10px;
+                }
+            }
         </style>
     </head>
     <body>
         <div class="grid-background"></div>
-        <div class="container">
-            <h1><a href="https://u.latebit.io">U</a></h1>
-            <br />
-            <h1>LATEBIT.IO</h1>
-            <img src="latebitflip.png" alt="latebitflip" />
-            <h3>@ontehfritz</h3>
-            <img src="fritz-pixel.png" alt="ontehfritz" />
+
+        <div class="tui-container">
+            <!-- Header -->
+            <div class="tui-header">
+                <div class="tui-title">╔═ LATEBIT.IO SYSTEM ═╗</div>
+                <div class="tui-status">[ONLINE]</div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="tui-main">
+                <!-- Left Panel - Profile -->
+                <div class="tui-panel profile-section">
+                    <div class="panel-header">[ SYSTEM INFO ]</div>
+
+                    <div class="logo-container">
+                        <img
+                            src="latebitflip.png"
+                            alt="LATEBIT"
+                            class="logo-img"
+                        />
+                    </div>
+
+                    <div class="ascii-art">
+                        ┌─────────────────────┐ │ LATEBIT.IO v1.0 │
+                        └─────────────────────┘
+                    </div>
+
+                    <div class="info-line">
+                        <span class="info-label">USER:</span> ontehfritz
+                    </div>
+
+                    <div>
+                        <img
+                            src="fritz-pixel.png"
+                            alt="ontehfritz"
+                            class="profile-img"
+                        />
+                    </div>
+
+                    <div class="username">@ontehfritz</div>
+
+                    <div class="ascii-art">
+                        ──────────────────────── RETRO COMPUTING 80s AESTHETIC
+                        TERMINAL VIBES ────────────────────────
+                    </div>
+                </div>
+
+                <!-- Right Panel - Navigation -->
+                <div class="tui-panel menu-section">
+                    <div class="panel-header">[ MAIN MENU ]</div>
+
+                    <a href="blog/index.html" class="menu-item">
+                        ENTER TERMINAL
+                    </a>
+
+                    <a href="https://u.latebit.io" class="menu-item">
+                        UNIVERSE (U)
+                    </a>
+
+                    <div class="ascii-art" style="margin-top: 30px">
+                        ┌─────────────────────┐ │ NAVIGATION KEYS │
+                        ├─────────────────────┤ │ [CLICK] - SELECT │ │ [ESC] -
+                        RETURN │ └─────────────────────┘
+                    </div>
+
+                    <div
+                        style="
+                            margin-top: 30px;
+                            font-size: 8px;
+                            opacity: 0.6;
+                            line-height: 1.8;
+                        "
+                    >
+                        <div>SYSTEM READY_</div>
+                        <div>AWAITING INPUT<span class="cursor">█</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="tui-footer">
+                ═══ LATEBIT.IO © 2025 ═══ RETRO TERMINAL INTERFACE ═══
+            </div>
         </div>
     </body>
 </html>

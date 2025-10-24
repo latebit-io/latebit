@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>latebit.io/blog - Terminal</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #000000;
+                color: #00ff00;
+                font-family: "Press Start 2P", monospace;
+                font-size: 12px;
+                padding: 20px;
+                line-height: 1.8;
+            }
+
+            .terminal {
+                max-width: 900px;
+                margin: 0 auto;
+                border: 2px solid #00ff00;
+                padding: 20px;
+                background-color: #000000;
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+
+            .terminal-header {
+                border-bottom: 2px solid #00ff00;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            .prompt {
+                color: #00ff00;
+                margin-bottom: 10px;
+            }
+
+            .cursor {
+                animation: blink 1s infinite;
+            }
+
+            @keyframes blink {
+                0%, 49% { opacity: 1; }
+                50%, 100% { opacity: 0; }
+            }
+
+            .directory {
+                margin: 15px 0;
+                padding-left: 20px;
+            }
+
+            .file-list {
+                list-style: none;
+                margin-top: 15px;
+            }
+
+            .file-list li {
+                margin: 8px 0;
+                padding: 5px 0;
+            }
+
+            .file-list a {
+                color: #00ff00;
+                text-decoration: none;
+                border-bottom: 1px dotted transparent;
+                transition: border-bottom 0.2s;
+            }
+
+            .file-list a:hover {
+                border-bottom: 1px dotted #00ff00;
+                text-shadow: 0 0 5px #00ff00;
+            }
+
+            .dir-icon::before {
+                content: "[DIR] ";
+                color: #00ff00;
+            }
+
+            .file-icon::before {
+                content: "[   ] ";
+                color: #00ff00;
+            }
+
+            .date {
+                color: #00ff00;
+                opacity: 0.7;
+                margin-left: 20px;
+                font-size: 10px;
+            }
+
+            .back-link {
+                margin-top: 30px;
+                padding-top: 15px;
+                border-top: 2px solid #00ff00;
+            }
+
+            .back-link a {
+                color: #00ff00;
+                text-decoration: none;
+            }
+
+            .back-link a:hover {
+                text-shadow: 0 0 5px #00ff00;
+            }
+
+            .command-line {
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="prompt">latebit@terminal:~$</div>
+                <div class="command-line">$ cd blog && ls -la</div>
+            </div>
+
+            <div class="directory">
+                <div class="prompt">total 3</div>
+                <div class="prompt">drwxr-xr-x  3 user  staff   96B Oct 24 2025 .</div>
+                <div class="prompt">drwxr-xr-x  5 user  staff  160B Oct 24 2025 ..</div>
+                <div class="prompt">drwxr-xr-x  2 user  staff   64B Oct 24 2025 posts</div>
+            </div>
+
+            <div class="command-line">
+                <div class="prompt" style="margin-top: 20px;">$ ls -l posts/</div>
+            </div>
+
+            <div class="directory">
+                <ul class="file-list">
+                    <li>
+                        <span class="file-icon"></span>
+                        <a href="posts/welcome.html">welcome.html</a>
+                        <span class="date">2025-10-24</span>
+                    </li>
+                    <!-- Add more blog posts here -->
+                </ul>
+            </div>
+
+            <div class="back-link">
+                <div class="prompt">$ cd ..</div>
+                <div class="prompt">
+                    <a href="../index.html">← back to latebit.io</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
