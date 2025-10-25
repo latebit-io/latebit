@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>latebit.io/blog - Terminal</title>
         <style>
-            @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
             * {
                 margin: 0;
@@ -15,11 +15,14 @@
 
             body {
                 background-color: #000000;
-                color: #00ff00;
-                font-family: "Press Start 2P", monospace;
-                font-size: 12px;
+                color: #4d9900;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 14px;
                 padding: 20px;
                 line-height: 1.8;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizeLegibility;
             }
 
             .terminal {
@@ -38,8 +41,10 @@
             }
 
             .prompt {
-                color: #00ff00;
+                color: #4d9900;
                 margin-bottom: 10px;
+                font-family: "Press Start 2P", monospace;
+                font-size: 10px;
             }
 
             .cursor {
@@ -47,8 +52,14 @@
             }
 
             @keyframes blink {
-                0%, 49% { opacity: 1; }
-                50%, 100% { opacity: 0; }
+                0%,
+                49% {
+                    opacity: 1;
+                }
+                50%,
+                100% {
+                    opacity: 0;
+                }
             }
 
             .directory {
@@ -67,29 +78,29 @@
             }
 
             .file-list a {
-                color: #00ff00;
+                color: #66cc00;
                 text-decoration: none;
                 border-bottom: 1px dotted transparent;
                 transition: border-bottom 0.2s;
             }
 
             .file-list a:hover {
-                border-bottom: 1px dotted #00ff00;
-                text-shadow: 0 0 5px #00ff00;
+                border-bottom: 1px dotted #66cc00;
+                text-shadow: 0 0 5px #66cc00;
             }
 
             .dir-icon::before {
                 content: "[DIR] ";
-                color: #00ff00;
+                color: #66cc00;
             }
 
             .file-icon::before {
                 content: "[   ] ";
-                color: #00ff00;
+                color: #66cc00;
             }
 
             .date {
-                color: #00ff00;
+                color: #66cc00;
                 opacity: 0.7;
                 margin-left: 20px;
                 font-size: 10px;
@@ -102,12 +113,12 @@
             }
 
             .back-link a {
-                color: #00ff00;
+                color: #66cc00;
                 text-decoration: none;
             }
 
             .back-link a:hover {
-                text-shadow: 0 0 5px #00ff00;
+                text-shadow: 0 0 5px #66cc00;
             }
 
             .command-line {
@@ -124,13 +135,21 @@
 
             <div class="directory">
                 <div class="prompt">total 3</div>
-                <div class="prompt">drwxr-xr-x  3 user  staff   96B Oct 24 2025 .</div>
-                <div class="prompt">drwxr-xr-x  5 user  staff  160B Oct 24 2025 ..</div>
-                <div class="prompt">drwxr-xr-x  2 user  staff   64B Oct 24 2025 posts</div>
+                <div class="prompt">
+                    drwxr-xr-x 3 user staff 96B Oct 24 2025 .
+                </div>
+                <div class="prompt">
+                    drwxr-xr-x 5 user staff 160B Oct 24 2025 ..
+                </div>
+                <div class="prompt">
+                    drwxr-xr-x 2 user staff 64B Oct 24 2025 posts
+                </div>
             </div>
 
             <div class="command-line">
-                <div class="prompt" style="margin-top: 20px;">$ ls -l posts/</div>
+                <div class="prompt" style="margin-top: 20px">
+                    $ ls -l posts/
+                </div>
             </div>
 
             <div class="directory">

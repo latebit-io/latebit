@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Welcome - latebit.io/blog</title>
         <style>
-            @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
             * {
                 margin: 0;
@@ -15,11 +15,14 @@
 
             body {
                 background-color: #000000;
-                color: #00ff00;
-                font-family: "Press Start 2P", monospace;
-                font-size: 12px;
+                color: #4d9900;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 14px;
                 padding: 20px;
                 line-height: 1.8;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizeLegibility;
             }
 
             .terminal {
@@ -38,8 +41,10 @@
             }
 
             .prompt {
-                color: #00ff00;
+                color: #4d9900;
                 margin-bottom: 10px;
+                font-family: "Press Start 2P", monospace;
+                font-size: 10px;
             }
 
             .post-meta {
@@ -51,8 +56,8 @@
             .post-title {
                 font-size: 16px;
                 margin-bottom: 10px;
-                color: #00ff00;
-                text-shadow: 0 0 5px #00ff00;
+                color: #66cc00;
+                text-shadow: 0 0 5px #66cc00;
             }
 
             .post-content {
@@ -67,7 +72,7 @@
             .post-content h2 {
                 font-size: 14px;
                 margin: 30px 0 15px 0;
-                color: #00ff00;
+                color: #66cc00;
                 border-bottom: 1px solid #00ff00;
                 padding-bottom: 10px;
             }
@@ -76,8 +81,8 @@
                 background-color: #003300;
                 padding: 2px 5px;
                 border: 1px solid #00ff00;
-                font-family: "Press Start 2P", monospace;
-                font-size: 10px;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 13px;
             }
 
             .post-content pre {
@@ -95,13 +100,13 @@
             }
 
             .post-content a {
-                color: #00ff00;
+                color: #66cc00;
                 text-decoration: none;
-                border-bottom: 1px dotted #00ff00;
+                border-bottom: 1px dotted #66cc00;
             }
 
             .post-content a:hover {
-                text-shadow: 0 0 5px #00ff00;
+                text-shadow: 0 0 5px #66cc00;
             }
 
             .back-link {
@@ -111,12 +116,12 @@
             }
 
             .back-link a {
-                color: #00ff00;
+                color: #66cc00;
                 text-decoration: none;
             }
 
             .back-link a:hover {
-                text-shadow: 0 0 5px #00ff00;
+                text-shadow: 0 0 5px #66cc00;
             }
         </style>
     </head>
@@ -153,9 +158,7 @@
 
                     <h2>How to Write Posts</h2>
 
-                    <p>
-                        Creating a new blog post is simple:
-                    </p>
+                    <p>Creating a new blog post is simple:</p>
 
                     <pre><code>1. Create a new .html file in blog/posts/
 2. Copy this template
@@ -163,15 +166,13 @@
 4. Add link to blog/index.html</code></pre>
 
                     <p>
-                        That's it! No build process, no dependencies,
-                        just pure HTML and CSS.
+                        That's it! No build process, no dependencies, just pure
+                        HTML and CSS.
                     </p>
 
                     <h2>Stay Tuned</h2>
 
-                    <p>
-                        More posts coming soon. Until then, keep hacking!
-                    </p>
+                    <p>More posts coming soon. Until then, keep hacking!</p>
                 </div>
             </article>
 
