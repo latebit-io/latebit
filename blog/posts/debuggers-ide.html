@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Debuggers and IDEs - latebit.io/blog</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #000000;
+                color: #4d9900;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 14px;
+                padding: 20px;
+                line-height: 1.8;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizeLegibility;
+            }
+
+            .terminal {
+                max-width: 900px;
+                margin: 0 auto;
+                border: 1px solid #00ff00;
+                padding: 20px;
+                background-color: #000000;
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+
+            .terminal-header {
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            .prompt {
+                color: #4d9900;
+                margin-bottom: 10px;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 14px;
+            }
+
+            .post-meta {
+                opacity: 0.7;
+                margin-bottom: 20px;
+                font-size: 10px;
+            }
+
+            .post-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+                color: #66cc00;
+                text-shadow: 0 0 5px #66cc00;
+            }
+
+            .post-content {
+                margin: 30px 0;
+                line-height: 2;
+            }
+
+            .post-content p {
+                margin-bottom: 20px;
+            }
+
+            .post-content h2 {
+                font-size: 14px;
+                margin: 30px 0 15px 0;
+                color: #66cc00;
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 10px;
+            }
+
+            .post-content code {
+                background-color: #003300;
+                padding: 2px 5px;
+                border: 1px solid #00ff00;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 13px;
+            }
+
+            .post-content pre {
+                background-color: #003300;
+                border: 1px solid #00ff00;
+                padding: 15px;
+                overflow-x: auto;
+                margin: 15px 0;
+            }
+
+            .post-content pre code {
+                background: none;
+                border: none;
+                padding: 0;
+            }
+
+            .post-content a {
+                color: #66cc00;
+                text-decoration: none;
+                border-bottom: 1px dotted #66cc00;
+            }
+
+            .post-content a:hover {
+                text-shadow: 0 0 5px #66cc00;
+            }
+
+            .back-link {
+                margin-top: 30px;
+                padding-top: 15px;
+                border-top: 1px solid #00ff00;
+            }
+
+            .back-link a {
+                color: #66cc00;
+                text-decoration: none;
+            }
+
+            .back-link a:hover {
+                text-shadow: 0 0 5px #66cc00;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="prompt">latebit@terminal:~/blog/posts$</div>
+                <div class="prompt">$ cat debuggers-ide.html</div>
+            </div>
+
+            <article>
+                <div class="post-meta">
+                    <div class="prompt">Date: 2025-11-30</div>
+                    <div class="prompt">Author: ontehfritz</div>
+                </div>
+
+                <h1 class="post-title">Debuggers and IDEs</h1>
+
+                <div class="post-content">
+                    <h2>Why I Can't Code Without a Debugger and IDEs?</h2>
+                    <i>Warning: This is strictly an opinion piece. </i>
+                    <br /><br />
+                    <p>
+                        I don't get it; why wouldn't you want to use an
+                        interactive debugger? There is tension in this question
+                        and maybe in my opinion, and my opinion could stem from
+                        how I grew up as developer in the PC world, which to
+                        note, I have left the PC world behind many years ago. I
+                        love linux and used it professionally, currently I am
+                        using MacOS professionally, which is a fair middle
+                        ground.
+                    </p>
+                    <p>
+                        I'm genuinely curious about the "no debugger" mentality.
+                        After years of iterating my development workflow across
+                        countless editors/IDEs Notepad++, Borland C/C++, Visual
+                        Studio, NeoVIM, VS Code, and Jetbrains IDEs; When I use
+                        a development tool that does not have interactive
+                        debugger, I come back to one conclusion, "I miss the
+                        debugger too much when it's gone."
+                    </p>
+                    <p>
+                        This doesn't answer the question yet so lets carry on :)
+                    </p>
+
+                    <h3>The year was 2000, end of the world!</h3>
+
+                    <p>
+                        What a year the turn of the millennium was, the world
+                        didn't end. But print statements in my code did! This is
+                        the year I tried Borland C/C++. What an IDE it was! A
+                        game changer in my dev flow, this was my introduction
+                        into interactive debugging and I haven't looked back,
+                        well I tried a few times after this, unsuccessfully!
+                    </p>
+
+                    <h3>The Cave Analogy</h3>
+
+                    <p>
+                        Here's the difference between console logging and
+                        interactive debugging:
+                    </p>
+                    <p>
+                        <b><i>With print statements</i></b
+                        >, you're standing at the mouth of a cave, sending
+                        someone else in. They yell back:
+                        <i
+                            >"Yep, there are fantastic colored gems and it
+                            smells like minerals and salts."</i
+                        >
+                        You nod, satisfied with the report.
+                    </p>
+                    <p>
+                        <b><i>With interactive debugging</i></b
+                        >, you explore the cave yourself in real-time. You see
+                        the gems, smell the minerals, feel the texture. The
+                        experience is incomparable.
+                    </p>
+                    <p>
+                        That's the magic. Step through code line by line,
+                        inspect variables as they change, watch execution
+                        unfold. You're inside the code itself, not hearing about
+                        it secondhand.
+                    </p>
+
+                    <h3>Beyond Bug Fixing</h3>
+                    <p>
+                        Many devs think debuggers are just for fixing bugs,
+                        they're not. Interactive debugging is how I explore
+                        unfamiliar codebases, understand complex logic, and
+                        satisfy my curiosity about how code actually executes.
+                        It's an adventure! Something I look forward to when a
+                        new code base is put in front of me!
+                    </p>
+
+                    <h3>The NeoVIM Dilemma</h3>
+                    <p>
+                        I genuinely love NeoVIM. The minimal aesthetic,
+                        lightweight feel, vim motions, and snappy performance
+                        are special. I was 100% committed to making the switch.
+                        But the debugging support was so subpar that it killed
+                        my motivation. I suspect the NeoVIM community's "I don't
+                        use debuggers" stance stems partly from this frustration
+                        when debugging is soooo painful. I can see how you would
+                        learn to avoid it or take a different perspective on
+                        debugging.
+                    </p>
+
+                    <h3>The IDE Trade offs</h3>
+
+                    <p>
+                        <b><i>Visual Studio</i></b> has amazing debugging, but
+                        the heaviness is unbearable.
+                    </p>
+
+                    <p>
+                        <b><i>goland</i></b> (my daily driver) offers the best
+                        debugging experience I've found, though it's heavier
+                        than I'd like, I appreciate that you get the same
+                        experience on winblowz, macOS, and linux
+                    </p>
+
+                    <p>
+                        <b><i>**Zed**</i></b> is exciting! It's lean, mean, and
+                        the debugging experience keeps getting better. The AI
+                        features are done well and growing on me. I'm eyeing it
+                        for professional work; I use it as my daily driver
+                        outside of work. TBH, I would use it now for work but
+                        zed only supports github login, and since I use one
+                        github account for both work and off work ... it is a
+                        bit tricky ATM, I want to use Pro features and have my
+                        personal and work subscriptions separate.
+                    </p>
+
+                    <p>We got off track a bit so back to debugging!</p>
+
+                    <h3>Why It Matters at Scale</h3>
+
+                    <p>
+                        Here's what I don't understand about the anti-debugger
+                        crowd: as your projects grow, console logging doesn't
+                        scale. Print statements get sprinkled everywhere, after
+                        you are done with them, you become a dust pan trying to
+                        sweep them all up. You'll miss some. Adding and removing
+                        debugging logs becomes tedious busywork.
+                    </p>
+
+                    <p>
+                        With an interactive debugger, you're surgical. You set a
+                        break point, step through the exact code path you care
+                        about, dissecting the code, inspecting the exact state
+                        you need and throw some conditional break points in
+                        there, yum! It's a first class experience.
+                    </p>
+
+                    <p>
+                        In my day to day I work on a complex banking system, and
+                        yeah sometimes I do get away with print statement
+                        debugging, and I do use it occasionally still, I use it
+                        to see output in another service, but when I really dig
+                        into bugs or understanding a code base, it is a
+                        supplement at best. My goto: when exploring the
+                        interactions between services, is to run more than one
+                        service in debug mode. It gets complicated but, is still
+                        highly do able. Aerospace tile manager for MacOS is
+                        mandatory for (me) multi-service debugging. I can max
+                        out 3 services per workspace! Watch your ram :) (ram ...
+                        this is also why I would like to move to Zed from
+                        goland)
+                    </p>
+
+                    <h3>The debugger does not:</h3>
+
+                    <pre><code>
+                        1. replace logging
+                        2. replace a good test suite
+                        3. replace instrumentation and observability
+                    </code></pre>
+
+                    <p>
+                        I have heard some arguments you don't need a debugger if
+                        you have the above done really well, it is also rare
+                        that all three of those points are done really well!
+                        They are defiantly essential in production; But while
+                        developing sometimes you will need to debug you tests,
+                        or use the tests as an entry point for interactive
+                        debugging.
+                    </p>
+                    <h3>Closing thoughts</h3>
+
+                    <p>
+                        Every developer/engineer has there own style and tools,
+                        which I find fascinating. The main point of my digitized
+                        thought was, nothing really just my opinion, but I hope
+                        my opinion gets you to explore the world of interactive
+                        debugging, it isn't new, it isn't cutting edge, it's
+                        something that has been around for a very long time. But
+                        to me it is one of the most useful tools in the tool
+                        shed.
+                    </p>
+                    <br /><br />
+                    <hr />
+                    <br />
+                    <p>
+                        If you would like to add a comment in the comment
+                        section do a pull request on file:
+                        <i>debuggers-ide.html</i>
+                    </p>
+
+                    <pre><code>
+                    clone:
+                    gh repo clone latebit-io/latebit
+                    git@github.com:latebit-io/latebit.git
+                    https://github.com/latebit-io/latebit.git
+                    </code></pre>
+                </div>
+            </article>
+
+            <h2>Comments:</h2>
+
+            <p>latest comments first</p>
+            <br /><br />
+
+            <p>Comment example:</p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+            </p>
+
+            <p>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt
+                mollit anim id est laborum.
+            </p>
+
+            <p>Link to github username [Nov 1 2025]</p>
+
+            <div class="back-link">
+                <div class="prompt">$ cd ..</div>
+                <div class="prompt">
+                    <a href="../index.html">← back to blog index</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
