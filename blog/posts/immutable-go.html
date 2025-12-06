@@ -195,17 +195,31 @@
 }
 
 // Repository caches a pointer to the mortgage
-func (r *Repository) GetMortgage(tenant, mortgageID int) (*Mortgage, error) {
-    mortgage := &amp;Mortgage{...}
-    r.cache.Set(key, mortgage)  // stores pointer
-    return mortgage
+func (r *Repository) GetMortgage(ctx context.Context, tenant, mortgageID int) (*Mortgage, error) {
+    cacheKey := fmt.Sprintf(GetMortgageCacheKey, tenant, mortgageID)
+    // Try to get from cache
+    cachedValue, err := r.cache.Get(ctx, cacheKey)
+    if err == nil && cachedValue != nil {
+        if val, ok := cachedValue.(*Mortgage); ok {
+            log.G(ctx).Debug("cache hit: ", cacheKey, " method: ", "GetByID")
+            return val, nil
+        }
+    }
+    // Call decorated repository
+    result, err := r.decorated.GetMortgage(ctx, tenant, mortgageID)
+    if err != nil {
+    	return mp1, err
+    }
+    // Cache the result
+    r.cache.Set(ctx, cacheKey, result)
+    return result, nil
 }</code></pre>
 
                     <p>Then in the service layer, someone mutates it:</p>
 
-                    <pre><code>func (m *MortgageService) GetMortgageWithoutInvestor(tenant, mortgageID int) (*Mortgage, error) {
+                    <pre><code>func (m *MortgageService) GetMortgageWithoutInvestor(ctx context.Context, tenant, mortgageID int) (*Mortgage, error) {
 		// we get with Investor
-    mortgage, _ := m.Repository.GetMortgage(tenant, mortgageID)
+    mortgage, _ := m.Repository.GetMortgage(ctx, tenant, mortgageID)
 
     if mortgage.Product.Investor != nil {
         // do stuff
