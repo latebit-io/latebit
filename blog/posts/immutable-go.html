@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Immutable Go - latebit.io/blog</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #000000;
+                color: #4d9900;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 14px;
+                padding: 20px;
+                line-height: 1.8;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-rendering: optimizeLegibility;
+            }
+
+            .terminal {
+                max-width: 900px;
+                margin: 0 auto;
+                border: 1px solid #00ff00;
+                padding: 20px;
+                background-color: #000000;
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+
+            .terminal-header {
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            .prompt {
+                color: #4d9900;
+                margin-bottom: 10px;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 14px;
+            }
+
+            .post-meta {
+                opacity: 0.7;
+                margin-bottom: 20px;
+                font-size: 10px;
+            }
+
+            .post-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+                color: #66cc00;
+                text-shadow: 0 0 5px #66cc00;
+            }
+
+            .post-content {
+                margin: 30px 0;
+                line-height: 2;
+            }
+
+            .post-content p {
+                margin-bottom: 20px;
+            }
+
+            .post-content h2 {
+                font-size: 14px;
+                margin: 30px 0 15px 0;
+                color: #66cc00;
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 10px;
+            }
+
+            .post-content code {
+                background-color: #003300;
+                padding: 2px 5px;
+                border: 1px solid #00ff00;
+                font-family: "IBM Plex Mono", "Consolas", "Monaco", monospace;
+                font-size: 13px;
+            }
+
+            .post-content pre {
+                background-color: #001100;
+                border: 1px solid #00ff00;
+                padding: 15px;
+                overflow-x: auto;
+                margin: 15px 0;
+            }
+
+            .post-content pre code {
+                background: none;
+                border: none;
+                padding: 0;
+            }
+
+            .post-content a {
+                color: #66cc00;
+                text-decoration: none;
+                border-bottom: 1px dotted #66cc00;
+            }
+
+            .post-content a:hover {
+                text-shadow: 0 0 5px #66cc00;
+            }
+
+            .back-link {
+                margin-top: 30px;
+                padding-top: 15px;
+                border-top: 1px solid #00ff00;
+            }
+
+            .back-link a {
+                color: #66cc00;
+                text-decoration: none;
+            }
+
+            .back-link a:hover {
+                text-shadow: 0 0 5px #66cc00;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="prompt">latebit@terminal:~/blog/posts$</div>
+                <div class="prompt">$ cat immutable-go.html</div>
+            </div>
+            <article>
+                <div class="post-meta">
+                    <div class="prompt">Date: 2025-12-06</div>
+                    <div class="prompt">Author: ontehfritz</div>
+                </div>
+                <div><h1 class="post-title">Immutable Go</h1></div>
+                <div class="post-content">
+                    <p>
+                        A year ago I landed a staff engineer role building
+                        cloud-based lending solutions in Go, and I fell hard for
+                        the language. The simplicity is intoxicating: one loop
+                        syntax, errors as structs, the elegant
+                        <code>(value, error)</code> two-return pattern (deal
+                        with errors now!), and a single deployable binary. It
+                        gave me C vibes, and I mean that as a compliment.
+                    </p>
+
+                    <p>
+                        <em
+                            >(Side note: I've shipped everything from .Net to
+                            Java to TypeScript. My first love was C, I could
+                            flow state it before LSPs and autocomplete. Go does
+                            the same, it is becoming my next C)</em
+                        >
+                    </p>
+
+                    <p>
+                        At work, I was tasked with performance improvements on
+                        some chatty microservices that were drowning in
+                        redundant database calls and inter-service requests.
+                        Classic gravitational pull to distributed monolith
+                        situation. So we built a request-based caching layer
+                        middleware that injects a request ID into the context,
+                        initializes a cache group for the request, then passes
+                        it through handlers → services → repositories, then
+                        cleans up the cache group at the end of the request. It
+                        has no distributed side effects, each replica data is
+                        not corrupted or stale, a very short lived cache. It
+                        works great. We're talking tens of thousands round trips
+                        savings per day!
+                    </p>
+
+                    <p>
+                        I was letting it simmer on a few rebases and rerunning
+                        integrations tests on each merge to master to see if
+                        anything would break. Everything was looking great, then
+                        a rebase came in and broke it :( a few tests started to
+                        fail, WTF!
+                    </p>
+
+                    <h2>The Problem</h2>
+
+                    <p>
+                        The cache is in-memory and runs in-process, so the
+                        structs are shared. Here's the bug:
+                    </p>
+
+                    <pre><code>type Mortgage struct {
+    ID      int
+    Product *Product
+}
+
+// Repository caches a pointer to the mortgage
+func (r *Repository) GetMortgage(tenant, mortgageID int) (*Mortgage, error) {
+    mortgage := &amp;Mortgage{...}
+    r.cache.Set(key, mortgage)  // stores pointer
+    return mortgage
+}</code></pre>
+
+                    <p>Then in the service layer, someone mutates it:</p>
+
+                    <pre><code>func (m *MortgageService) GetMortgageWithoutInvestor(tenant, mortgageID int) (*Mortgage, error) {
+		// we get with Investor
+    mortgage, _ := m.Repository.GetMortgage(tenant, mortgageID)
+
+    if mortgage.Product.Investor != nil {
+        // do stuff
+    }
+    // nil the investor because the function says so
+    mortgage.Product.Investor = nil  // whoops, corrupted the cache
+    return mortgage
+}</code></pre>
+
+                    <p>
+                        Next time someone calls the repository's
+                        <code>GetMortgage</code> and expects the investor to be
+                        there? Nope. It's nil because we mutated the cached
+                        pointer. shared ... mutable ... state. Cache corrupted.
+                    </p>
+
+                    <p>
+                        One thing to remember, this solution needs be drop in,
+                        general, and not intrusive to the current code. Also we
+                        did not want to introduce the complexity of distributed
+                        caching. So don't say it ...
+                    </p>
+
+                    <h2>Go Doesn't Care About Immutability</h2>
+
+                    <p>
+                        My first instinct was obvious: just dereference
+                        everything. But then you've got nested pointers, which
+                        means dereferencing all the way down the object graph,
+                        becomes a dereferencer jig. Deep copy? Sure, except:
+                    </p>
+
+                    <ul>
+                        <li>
+                            JSON marshal/unmarshal is messy (legacy code with
+                            ignore JSON annotations means non-deterministic deep
+                            copy)
+                        </li>
+                        <li>
+                            Gob is worse it doesn't handle
+                            <code>interface{}</code>, and pointers well and
+                            requires type registration
+                        </li>
+                        <li>Deep copying complex types generically is hard.</li>
+                    </ul>
+
+                    <p>
+                        I spent way too much time arguing with Go about this.
+                        Other languages have an option to handle Immutability.
+                        Go just... doesn't.
+                    </p>
+
+                    <h2>The Fix</h2>
+
+                    <p>
+                        We ended up with a pragmatic solution: generate a hash
+                        when setting a cache value, check it on retrieval. If
+                        the object changed, the hash changes, return an error,
+                        invalidate the key, and repopulate. Worked like a charm.
+                        No overhead with copying.
+                    </p>
+
+                    <p>I will post blog on the actual solution used. TBD!</p>
+
+                    <h2>Conclusion</h2>
+
+                    <p>
+                        So how do you get immutability in go? The only answer is
+                        you can't, not truly!
+                    </p>
+
+                    <h3>The Real Problem (Another Post)</h3>
+
+                    <p>
+                        Look, let's be honest, the actual issue is
+                        architectural. This "microservice" is really a monolith.
+                        Proper service boundaries, less anemic shared models,
+                        minimal cross-service dependencies? That would eliminate
+                        most of this chattiness. We wouldn't be making seven
+                        calls to fetch a single domain object. We wouldn't have
+                        repositories/services scattered across layers sharing
+                        mutable state.
+                    </p>
+
+                    <p>
+                        But that's a massive refactoring. It takes time, buy-in,
+                        and it doesn't ship performance improvements today. So
+                        we took the pragmatic path: drop in caching, detect
+                        mutations, invalidate, and move on. It's a win. This is
+                        the reality of scaling software. Architecture decisions
+                        that were fine at 10k LOC become disasters at 500k LOC.
+                        By then you're patching symptoms instead of fixing
+                        roots. That's a different post though.
+                    </p>
+
+                    <h2>Appendix Still Curious Though</h2>
+
+                    <p>
+                        Another approach to get immutable cache would be to deep
+                        copy into the cache and deep copy out of the cache, or
+                        always use value types, but the latter is not a drop in
+                        solution.
+                    </p>
+
+                    <p>
+                        Lets benchmark different approaches to deep copying
+                        structs and see what is the overhead cost?
+                    </p>
+
+                    <p>
+                        Wether this bench mark is optimized or 100% accurate, I
+                        don't care, it is just to give me a mental frame to
+                        measure by:
+                    </p>
+
+                    <p>
+                        <a
+                            href="https://github.com/latebit-io/deepcopybenchmark"
+                            >https://github.com/latebit-io/deepcopybenchmark</a
+                        >
+                    </p>
+
+                    <p>This was run on M1 mac, with 24 gigs of ram.</p>
+
+                    <pre><code>DEEPCOPY BENCHMARK COMPARISON
+
+TOKEN (Simple struct with map):
+  Manual:      223 ns/op (2.2385ms total for 10000 ops)
+  Reflection:  390 ns/op (3.900209ms total for 10000 ops)
+  JSON:        4944 ns/op (49.4425ms total for 10000 ops)
+  GOB:         20869 ns/op (208.69125ms total for 10000 ops)
+
+USER (Complex struct with pointers, slice, map):
+  Manual:      165 ns/op (1.653459ms total for 10000 ops)
+  Reflection:  285 ns/op (2.850375ms total for 10000 ops)
+  JSON:        5493 ns/op (54.931125ms total for 10000 ops)
+  GOB:         23838 ns/op (238.382416ms total for 10000 ops)
+
+DEVICE (Simple struct, no pointers):
+  Manual:      1 ns/op (15.459µs total for 10000 ops)
+  Reflection:  155 ns/op (1.551625ms total for 10000 ops)
+  JSON:        1854 ns/op (18.549ms total for 10000 ops)
+  GOB:         14558 ns/op (145.588416ms total for 10000 ops)</code></pre>
+
+                    <p>
+                        Next steps, I may implement an immutable in memory
+                        request cache just for fun. In general I think it might
+                        be still faster than redis.
+                    </p>
+
+                    <br /><br />
+                    <hr />
+                    <br />
+                    <p>
+                        If you would like to add a comment in the comment
+                        section do a pull request on file:
+                        <i>debuggers-ide.html</i>
+                    </p>
+
+                    <pre><code>
+                clone:
+                gh repo clone latebit-io/latebit
+                git@github.com:latebit-io/latebit.git
+                https://github.com/latebit-io/latebit.git
+                </code></pre>
+                </div>
+            </article>
+            <h2>Comments:</h2>
+
+            <p>latest comments first</p>
+            <br /><br />
+
+            <p>Comment example:</p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+            </p>
+
+            <p>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt
+                mollit anim id est laborum.
+            </p>
+
+            <p>Link to github username [Nov 6 2025]</p>
+
+            <div class="back-link">
+                <div class="prompt">$ cd ..</div>
+                <div class="prompt">
+                    <a href="../index.html">← back to blog index</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
